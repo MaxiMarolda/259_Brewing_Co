@@ -11,7 +11,9 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 //app.use(morgan("dev"));
 
-const CONNECTION_URL = "mongodb+srv://pablo:40142329@cluster0.nn5qyj7.mongodb.net/?retryWrites=true&w=majority";
+const PASSWORD = process.env.DATABASE_PASSWORD;
+const USER = process.env.DATABASE_USER;
+const CONNECTION_URL = `mongodb+srv://${USER}:${PASSWORD}@cluster0.zqbxj5p.mongodb.net/?retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 3001;
 
 mongoose
