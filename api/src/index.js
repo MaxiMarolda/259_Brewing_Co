@@ -2,18 +2,20 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-//import morgan from "morgan";
+import morgan from "morgan";
+import matriaPrimaRoutes from "./routes/materiasPrimas/materiaPrima.routes.js";
 
 const app = express();
-
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-//app.use(morgan("dev"));
+app.use(morgan("dev"));
+
+app.use(matriaPrimaRoutes);
 
 const PASSWORD = process.env.DATABASE_PASSWORD;
 const USER = process.env.DATABASE_USER;
-const CONNECTION_URL = `mongodb+srv://${USER}:${PASSWORD}@cluster0.zqbxj5p.mongodb.net/?retryWrites=true&w=majority`;
+const CONNECTION_URL = `mongodb+srv://admin:NgOEhyAwhfJQetT5@cluster0.zqbxj5p.mongodb.net/?retryWrites=true&w=majority`;
 const PORT = process.env.PORT || 3001;
 
 mongoose
