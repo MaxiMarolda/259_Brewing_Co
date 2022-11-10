@@ -6,9 +6,12 @@ export const getAllTeams = async (req, res) => {
   res.status(200).json(teams);
 };
 
+//devuelve los partidos donde argentina es local
+//const matches = await Match.where("teamA.name").equals("Argentina");
+
 export const getTeam = async (req, res) => {
-  const { name } = req.params;
-  const team = await Team.find({ name });
+  const { name } = req.params; //Argentina
+  const team = await Team.find({ name: "Argentina" });
 
   res.status(200).json(team);
 };

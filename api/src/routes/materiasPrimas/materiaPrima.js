@@ -11,6 +11,14 @@ const materiaPrimasSchema = new Schema(
       type: Number,
       required: true,
     },
+    type: {
+      type: String,
+      required: true,
+    },
+    size: {
+      type: String,
+      required: true,
+    },
   },
   {
     versionKey: false,
