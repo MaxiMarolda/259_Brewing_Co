@@ -15,10 +15,10 @@ const fermentadorSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    dateBusy: {
-      type: TimeRanges,
-      required: false,
-    },
+    // dateBusy: {
+    //   type: Date,
+    //   required: false,
+    // },
   },
   {
     versionKey: false,

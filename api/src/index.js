@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import morgan from "morgan";
 import matriaPrimaRoutes from "./routes/materiasPrimas/materiaPrima.routes.js";
+import fermentadorRoutes from "./routes/fermentador/fermentador.routes.js";
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(morgan("dev"));
 
 app.use(matriaPrimaRoutes);
+app.use(fermentadorRoutes);
 
 const PASSWORD = process.env.DATABASE_PASSWORD;
 const USER = process.env.DATABASE_USER;
