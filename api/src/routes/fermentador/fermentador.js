@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 
+let date = Date.now()
 const fermentadorSchema = new Schema(
   {
     name: {
@@ -15,10 +16,11 @@ const fermentadorSchema = new Schema(
       type: Boolean,
       required: true,
     },
-    // dateBusy: {
-    //   type: Date,
-    //   required: false,
-    // },
+    dateBusy: {
+      type: Date,
+      required: false,
+      default: date
+    },
   },
   {
     versionKey: false,

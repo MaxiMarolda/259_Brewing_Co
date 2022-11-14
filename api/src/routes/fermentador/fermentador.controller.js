@@ -24,10 +24,31 @@ export const getAllFermentador = async (req, res) => {
 export const getFermentador = async (req, res) => {
   try {
     const { name } = req.params;
-    console.log(name);
     const fermentador = await Fermentador.find({ name });
     res.status(201).json(fermentador);
   } catch (error) {
     res.status(403).send(error.message);
+  }
+};
+export const putFermentador = async (req, res) => {
+  const { name } = req.params;
+  const { isInUse } = req.body
+  console.log(name);
+  console.log(isInUse);
+  try {
+    if (!name) {
+      throw { status: 404, message: "Se necesita un nombre de fermentador" };
+    }
+    const fermentador = await Fermentador.findOneAndUpdate( { name }, { isInUse }, {new: true});
+    console.log(fermentador);
+    if (!fermentador ) {
+      throw {
+        status: 404,
+        message: `El fermentador con el nombre: ${name}, no existe`,
+      };
+    }
+    res.status(201).json(fermentador);
+  } catch (error) {
+    res.status(error.status || 403).send(error.message);
   }
 };
