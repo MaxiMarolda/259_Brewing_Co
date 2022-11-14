@@ -4,7 +4,7 @@ let date = Date.now()
 const barrilSchema = new Schema(
   {
     type: {
-      type: Number,
+      type: String,
       required: true,
     },
     clientId: {
