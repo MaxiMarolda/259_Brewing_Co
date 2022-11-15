@@ -5,7 +5,7 @@ const router = Router();
 
 router.post("/barril", barrilController.createBarril);
 router.get("/barril", barrilController.getAllBarril);
-router.get("/barril/:name", barrilController.getBarril);
-router.put("/barril/:name", barrilController.putBarril);
+router.get("/barril/:_id", barrilController.getBarril);
+router.put("/barril/:_id", barrilController.putBarril);
 
 export default router;

@@ -21,7 +21,7 @@ export const getAllBarril = async (req, res) => {
 };
 export const getBarril = async (req, res) => {
   try {
-    const { name } = req.params;
+    const { _id } = req.params;
     const barril = await Barril.find({ _id });
     res.status(201).json(barril);
   } catch (error) {
@@ -36,9 +36,11 @@ export const putBarril = async (req, res) => {
     if (!_id) {
       throw { status: 404, message: "Se necesita un ID de barril" };
     }
+    console.log(update);
+    // const barril = await Barril.findByIdAndUpdate( { _id:"63729aed42b90ee979630321"}, { dateReturn: Date.now() }, {new: true})
     const barril = update === "In" 
-    ? await Barril.findOneAndUpdate( { _id }, { dateReturn: Date.now() }, {new: true})
-    : await Barril.findOneAndUpdate( { _id }, { dateLeft: Date.now() }, {new: true});
+    ? await Barril.findByIdAndUpdate( { _id }, { dateReturn: Date.now() }, {new: true})
+    : await Barril.findByIdAndUpdate( { _id }, { dateLeft: Date.now() }, {new: true});
     console.log(barril);
     if (!barril ) {
       throw {
