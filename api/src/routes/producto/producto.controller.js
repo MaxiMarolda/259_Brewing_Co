@@ -1,54 +1,51 @@
-import { Barril } from "./barril.js";
+import { Producto } from "./producto.js";
 
-export const createBarril = async (req, res) => {
+export const createProducto = async (req, res) => {
   try {
     const {
-     type
+     name,
+     price,
+     presentationId,
+     isActive
     } = req.body;
-    const barril = await Barril.create({ type });
-    res.status(201).json(barril);
+    const producto = await Producto.create({ name, price, presentationId, isActive });
+    res.status(201).json(producto);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
-export const getAllBarril = async (req, res) => {
+export const getAllProducto = async (req, res) => {
   try {
-    const barril = await Barril.find();
-    res.status(200).json(barril);
+    const producto = await Producto.find();
+    res.status(200).json(producto);
   } catch (error) {
     res.status(400).send(error.message);
   }
 };
-export const getBarril = async (req, res) => {
+export const getProducto = async (req, res) => {
   try {
     const { _id } = req.params;
-    const barril = await Barril.find({ _id });
-    res.status(201).json(barril);
+    const producto = await Producto.find({ _id });
+    res.status(201).json(producto);
   } catch (error) {
     res.status(403).send(error.message);
   }
 };
-export const putBarril = async (req, res) => {
+export const putProducto = async (req, res) => {
   const { _id } = req.params;
-  console.log(_id);
-  const { update } = req.body;
+  const { price } = req.body;
   try {
     if (!_id) {
-      throw { status: 404, message: "Se necesita un ID de barril" };
+      throw { status: 404, message: "Se necesita un ID de producto" };
     }
-    console.log(update);
-    // const barril = await Barril.findByIdAndUpdate( { _id:"63729aed42b90ee979630321"}, { dateReturn: Date.now() }, {new: true})
-    const barril = update === "In" 
-    ? await Barril.findByIdAndUpdate( { _id }, { dateReturn: Date.now() }, {new: true})
-    : await Barril.findByIdAndUpdate( { _id }, { dateLeft: Date.now() }, {new: true});
-    console.log(barril);
-    if (!barril ) {
+    const producto = await Producto.findByIdAndUpdate( { _id }, { price }, {new: true})
+    if (!producto ) {
       throw {
         status: 404,
-        message: `El barril con el ID: ${_id}, no existe`,
+        message: `El producto con el ID: ${_id}, no existe`,
       };
     }
-    res.status(201).json(barril);
+    res.status(201).json(producto);
   } catch (error) {
     res.status(error.status || 403).send(error.message);
   }
