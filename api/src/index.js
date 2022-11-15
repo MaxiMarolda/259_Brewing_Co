@@ -6,6 +6,7 @@ import morgan from "morgan";
 import matriaPrimaRoutes from "./routes/materiaPrima/materiaPrima.routes.js";
 import fermentadorRoutes from "./routes/fermentador/fermentador.routes.js";
 import barrilRoutes from "./routes/barril/barril.routes.js";
+import productoRoutes from "./routes/producto/producto.routes.js";
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -16,6 +17,7 @@ app.use(morgan("dev"));
 app.use(matriaPrimaRoutes);
 app.use(fermentadorRoutes);
 app.use(barrilRoutes);
+app.use(productoRoutes);
 
 const PASSWORD = process.env.DATABASE_PASSWORD;
 const USER = process.env.DATABASE_USER;
