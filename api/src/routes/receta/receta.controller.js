@@ -1,6 +1,12 @@
 import { Receta } from "./receta.js";
 import { MateriaPrima } from "../materiaPrima/materiaPrima.js";
 
+export const getReceta = async (req, res) => {
+  const allReceta = await Receta.find();
+
+  res.status(200).json(allReceta);
+};
+
 export const createReceta = async (req, res) => {
   try {
     //  name y type son propiedades de materia prima, el resto de la receta en sí
