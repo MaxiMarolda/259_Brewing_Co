@@ -7,9 +7,8 @@ const router = Router();
 router.get("/materiaPrima/:type", materiaPrimaController.getMateriaPrima);
 router.get("/materiaPrima", materiaPrimaController.getAllMateriasPrimas);
 
-router.post("/materiaPrima", materiaPrimaController.createMateriaPrima);
-
-router.put("/materiaPrima/:name", materiaPrimaController.updateMateriaPrima);
+router.put("/materiaPrima", materiaPrimaController.createMateriaPrima); //crea o modifica una existente
+router.put("/materiaPrima/:id", materiaPrimaController.updateMateriaPrima); //cuando se cocina una receta
 
 // Ruta put para descontar materias primas al producir una receta
 
