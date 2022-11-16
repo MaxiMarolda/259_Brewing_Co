@@ -6,14 +6,16 @@ const materiaPrimasSchema = new Schema(
       type: String,
       required: true,
     },
-    amount: {
-      type: Number,
-      required: true,
-    },
     type: {
       type: String,
       required: true,
     },
+    //  Amount of bags/cans:
+    amount: {
+      type: Number,
+      required: true,
+    },
+    //  Size of those bags/cans:
     size: {
       type: String,
       required: true,
