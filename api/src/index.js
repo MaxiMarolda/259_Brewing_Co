@@ -8,6 +8,8 @@ import fermentadorRoutes from "./routes/fermentador/fermentador.routes.js";
 import recetaRoutes from "./routes/receta/receta.routes.js";
 import barrilRoutes from "./routes/barril/barril.routes.js";
 import productoRoutes from "./routes/producto/producto.routes.js";
+import usuarioRoutes from "./routes/usuario/usuario.routes.js";
+
 
 const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -20,6 +22,7 @@ app.use(fermentadorRoutes);
 app.use(recetaRoutes);
 app.use(barrilRoutes);
 app.use(productoRoutes);
+app.use(usuarioRoutes);
 
 const PASSWORD = process.env.DATABASE_PASSWORD;
 const USER = process.env.DATABASE_USER;
