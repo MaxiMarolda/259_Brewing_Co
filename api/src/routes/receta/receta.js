@@ -11,4 +11,18 @@ const recetaSchema = new Schema({
     required: true,
     unique: true,
   },
+  ingredients: [
+    {
+      _id: {
+        type: String,
+        required: true,
+      },
+      grs: {
+        type: Number,
+        required: true,
+      },
+    },
+  ],
 });
+
+export const Receta = model("Receta", recetaSchema);
