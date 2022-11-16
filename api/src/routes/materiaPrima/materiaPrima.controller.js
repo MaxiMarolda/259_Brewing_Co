@@ -2,14 +2,42 @@ import { MateriaPrima } from "./materiaPrima.js";
 
 const types = ["production", "package"];
 
+const createOrUpdateMateriaPrima = async (newMateriaPrima) => {
+  const materiasPrimas = await MateriaPrima.find();
+  const alreadyExists = materiasPrimas.find(
+    (materiaPrima) =>
+      materiaPrima.name === newMateriaPrima.name &&
+      materiaPrima.type === newMateriaPrima.type &&
+      materiaPrima.size === newMateriaPrima.size
+  );
+
+  if (alreadyExists) {
+    return await MateriaPrima.findByIdAndUpdate(
+      alreadyExists._id,
+      { amount: alreadyExists.amount + newMateriaPrima.amount },
+      { new: true }
+    );
+  } else {
+    return await MateriaPrima.create(newMateriaPrima);
+  }
+};
+
 export const createMateriaPrima = async (req, res) => {
   try {
-    const { name, amount, type, size } = req.body;
-    if (!types.includes(type)) {
-      throw { message: "Invalid type" };
+    const { name, amount, type, size, many } = req.body;
+
+    //  Create many MateriaPrima:
+    if (many?.length) {
+      const allNewMateriaPrima = [];
+
+      for (let i = 0; i < many.length; i++) {
+        allNewMateriaPrima.push(await createOrUpdateMateriaPrima(many[i]));
+      }
+      return res.status(201).json(allNewMateriaPrima);
     }
 
-    const materiaPrima = await MateriaPrima.create({ name, amount, type, size });
+    //  Create one MateriaPrima:
+    const materiaPrima = await createOrUpdateMateriaPrima({ name, type, amount, size });
     res.status(201).json(materiaPrima);
   } catch (error) {
     res.status(400).send(error.message);
@@ -37,11 +65,15 @@ export const getMateriaPrima = async (req, res) => {
   }
 };
 
+// props that can be updated: name, type, amount
 export const updateMateriaPrima = async (req, res) => {
   const newProps = req.body;
-  const { name } = req.params;
+  const { id } = req.params;
   try {
-    const newMateriaPrima = await MateriaPrima.findOneAndUpdate(name, newProps, { new: true });
+    if (!newProps["name"] && !newProps["type"] && !newProps["amount"]) {
+      throw { status: 400, message: "Only name, type or amount can be updated" };
+    }
+    const newMateriaPrima = await MateriaPrima.findByIdAndUpdate(id, newProps, { new: true });
 
     res.status(201).json(newMateriaPrima);
   } catch (error) {
