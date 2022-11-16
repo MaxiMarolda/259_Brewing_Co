@@ -1,21 +1,22 @@
 import { Schema, model } from "mongoose";
 
-const barrilSchema = new Schema(
+
+const productoSchema = new Schema(
   {
-    type: {
+    name: {
       type: String,
       required: true,
     },
-    clientId: {
+    price: {
       type: Number,
       required: false,
     },
-    dateLeft: {
-      type: Date,
+    presentationId: {
+      type: String,
       required: false,
     },
-    dateReturn: {
-      type: Date,
+    isActive: {
+      type: Boolean,
       required: false,
     },
   },
@@ -25,4 +26,4 @@ const barrilSchema = new Schema(
   }
 );
 
-export const Barril = model("Barril", barrilSchema);
+export const Producto = model("Producto", productoSchema);
