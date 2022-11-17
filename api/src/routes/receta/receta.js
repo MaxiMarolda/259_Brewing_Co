@@ -11,9 +11,14 @@ const recetaSchema = new Schema({
     required: true,
     unique: true,
   },
+  //  Materias Primas de la receta
   ingredients: [
     {
-      _id: {
+      name: {
+        type: String,
+        required: true,
+      },
+      type: {
         type: String,
         required: true,
       },
