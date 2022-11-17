@@ -33,4 +33,4 @@ const usuarioSchema = new Schema(
   }
 );
 
-export const Fermentador = model("Fermentador", usuarioSchema);
+export const Usuario = model("Usuario", usuarioSchema);
