@@ -13,12 +13,12 @@ const Group = () => {
     return response;
   }; */
 
-  const getGroups = async () => {
+  const getRecetas = async () => {
     const response = await fetch(configuration.url + "groups");
     return response.json();
   };
 
-  const { data, status } = useQuery("groups", getGroups);
+  const { data, status } = useQuery("groups", getRecetas);
 
   return (
     <div>
