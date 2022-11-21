@@ -45,15 +45,6 @@ const Recetas = () => {
         grs: ingredient.grs,
         "grs/lt": ingredient.grs / 20,
       }));
-
-      /* receta.ingredients.forEach((ingredient, index) => {
-        data[index].push({
-          name: ingredient.name,
-          type: ingredient.type,
-          grs: ingredient.grs,
-          "grs/lt": ingredient.grs / 20,
-        });
-      }); */
     });
     return <Table columns={columns} dataSource={data} pagination={false} />;
   };
@@ -82,16 +73,13 @@ const Recetas = () => {
   });
 
   return (
-    <>
-      <p> ESTAS EN Productos</p>
-      <Table
-        columns={mainColumns}
-        expandable={{
-          expandedRowRender,
-        }}
-        dataSource={mainData}
-      />
-    </>
+    <Table
+      columns={mainColumns}
+      expandable={{
+        expandedRowRender,
+      }}
+      dataSource={mainData}
+    />
   );
 };
 
