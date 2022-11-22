@@ -79,6 +79,9 @@ const Recetas = () => {
         expandedRowRender,
       }}
       dataSource={mainData}
+      scroll={{
+        y: "65vh",
+      }}
     />
   );
 };
