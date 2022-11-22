@@ -5,7 +5,10 @@ export const createBarril = async (req, res) => {
     const {
      type
     } = req.body;
-    const barril = await Barril.create({ type });
+    const clientId = 0;
+    const dateLeft = Date.now();
+    const dateReturn = Date.now();
+    const barril = await Barril.create({ type , clientId, dateLeft, dateReturn, isActive});
     res.status(201).json(barril);
   } catch (error) {
     res.status(400).send(error.message);

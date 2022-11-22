@@ -18,6 +18,10 @@ const barrilSchema = new Schema(
       type: Date,
       required: false,
     },
+    isActive: {
+      type: Boolean,
+      required: false,
+    },
   },
   {
     versionKey: false,
