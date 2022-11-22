@@ -30,6 +30,7 @@ const App = () => {
       hasSider
       style={{
         minHeight: "100vh",
+        maxHeight: "100vh",
       }}
     >
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -61,7 +62,7 @@ const App = () => {
           style={{
             margin: "24px 16px",
             padding: 24,
-            minHeight: 280,
+            height: "100%",
           }}
         >
           {components[activeComponent]}
