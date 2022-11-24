@@ -1,66 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { SmileOutlined } from "@ant-design/icons";
+import React, { useState, useEffect } from "react";
+import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import { notification } from "antd";
-import { useQuery } from "react-query";
 
-const Notification = ({ title, message, data, requestOptions }) => {
+const Notification = ({ title, successMessage, errorMessage, requestOptions, id }) => {
   const [api, contextHolder] = notification.useNotification();
-  //body: JSON.stringify({data}),
-  const [newMateriaPrima, setNewMateriaPrima] = useState(false);
-  const [updatedMateriaPrima, setUpdatedMateriaPrima] = useState(false);
 
   const query = async (route) => {
-    console.log("query", requestOptions);
-    const response = await fetch("http://localhost:3001/" + route, requestOptions);
+    const response = await fetch(`http://localhost:3001/materiaprima/${id}`, requestOptions);
     return response.json();
   };
 
-  useEffect(() => {
+  const openNotification = async () => {
     try {
-      if (newMateriaPrima) {
-        console.log("1");
-        const { data, status } = useQuery("materiasPrimas", () => query("materiaprima"));
-        console.log("DATA ", data);
-        setUpdatedMateriaPrima(data);
-        console.log(updatedMateriaPrima.status);
-        console.log(updatedMateriaPrima.data);
-        console.log("2");
-        setNewMateriaPrima(false);
+      const response = await query();
+      if (response._id) {
+        api.open({
+          message: title,
+          description: successMessage,
+          icon: (
+            <SmileOutlined
+              style={{
+                color: "#108ee9",
+              }}
+            />
+          ),
+        });
+      } else {
+        api.open({
+          message: title,
+          description: errorMessage,
+          icon: (
+            <FrownOutlined
+              style={{
+                color: "#108ee9",
+              }}
+            />
+          ),
+        });
       }
     } catch (error) {
-      console.log("ERROR:", error.message);
-    }
-  }, [newMateriaPrima]);
-
-  const openNotification = () => {
-    console.log("A");
-    setNewMateriaPrima(true);
-
-    console.log("B");
-    if (updatedMateriaPrima) {
-      api.open({
-        message: title,
-        description: message,
-        icon: (
-          <SmileOutlined
-            style={{
-              color: "#108ee9",
-            }}
-          />
-        ),
-      });
-    } else {
-      api.open({
-        message: "NOOOOOOOOOOOOOOOOOO",
-        description: message,
-        icon: (
-          <SmileOutlined
-            style={{
-              color: "#108ee9",
-            }}
-          />
-        ),
-      });
+      console.log(error.message);
     }
   };
 

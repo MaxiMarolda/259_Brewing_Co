@@ -80,43 +80,35 @@ const MateriasPrimas = () => {
     return response.json();
   };
 
-  const materiasPrimas = useQuery("materiasPrimas", () => getRecetas("materiaprima"));
+  let materiasPrimas = useQuery("materiasPrimas", () => getRecetas("materiaprima"), {
+    refetchOnWindowFocus: true,
+  });
 
-  const [dataSource, setDataSource] = useState([
-    {
-      key: "0",
-      name: "Edward King 0",
-      age: "32",
-      address: "London, Park Lane no. 0",
-    },
-    {
-      key: "1",
-      name: "Edward King 1",
-      age: "32",
-      address: "London, Park Lane no. 1",
-    },
-  ]);
+  const [dataSource, setDataSource] = useState([]);
 
-  let data = [];
-  if (materiasPrimas.status === "success") {
-    data = materiasPrimas.data?.map((materiaPrima) => {
-      return {
-        key: materiaPrima._id,
-        _id: materiaPrima._id,
-        name: materiaPrima.name,
-        type: materiaPrima.type,
-        amount: materiaPrima.amount,
-        size: materiaPrima.size,
-      };
-    });
-    //setDataSource(data);
-  } else {
-    console.log("Cargando");
-  }
+  const handleData = () => {
+    let data = [];
+    if (materiasPrimas?.status === "success") {
+      data = materiasPrimas.data?.map((materiaPrima) => {
+        return {
+          key: materiaPrima._id,
+          _id: materiaPrima._id,
+          name: materiaPrima.name,
+          type: materiaPrima.type,
+          amount: materiaPrima.amount,
+          size: materiaPrima.size,
+        };
+      });
+    }
+    return data;
+  };
 
   useEffect(() => {
-    setDataSource(data);
-  }, [data.length]);
+    setDataSource(handleData());
+    return () => {
+      materiasPrimas.refetch(); //  To update materiasPrimas and re-render when navigating through component
+    };
+  }, [materiasPrimas.status]);
 
   const [count, setCount] = useState(2);
   const handleDelete = (key) => {
@@ -146,7 +138,7 @@ const MateriasPrimas = () => {
       editable: true,
     },
     {
-      title: "",
+      title: "operation",
       dataIndex: "operation",
       render: (_, record) =>
         dataSource.length >= 1 ? (
@@ -154,27 +146,19 @@ const MateriasPrimas = () => {
             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
               <a>Delete</a>
             </Popconfirm>{" "}
-            {/* <Notification
-              title="Materia Prima"
-              message="Materia prima guardada con éxito"
-              data={record}
-              requestOptions={{
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-              }}
-            /> */}
           </div>
         ) : null,
     },
     {
-      title: "",
+      title: "operation2",
       dataIndex: "operation2",
       render: (_, record) =>
         dataSource.length >= 1 ? (
           <Notification
             title="Materia Prima"
-            message="Materia prima guardada con éxito"
-            data={record}
+            successMessage="Materia prima guardada con éxito"
+            errorMessage="Error al guardar información"
+            id={record._id}
             requestOptions={{
               method: "PUT",
               headers: { "Content-Type": "application/json" },
@@ -188,9 +172,10 @@ const MateriasPrimas = () => {
   const handleAdd = () => {
     const newData = {
       key: count,
-      name: `Edward King ${count}`,
-      age: "32",
-      address: `London, Park Lane no. ${count}`,
+      name: `Nombre`,
+      type: "Tipo",
+      amount: "Cantidad",
+      size: "0",
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);
