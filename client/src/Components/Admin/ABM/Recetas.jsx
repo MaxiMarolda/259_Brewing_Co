@@ -1,7 +1,6 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { DownOutlined } from "@ant-design/icons";
-import { Badge, Dropdown, Space, Table } from "antd";
+import { Table } from "antd";
 
 const Recetas = () => {
   const getRecetas = async (route) => {
