@@ -12,9 +12,19 @@ export const createReceta = async (req, res) => {
     //  name y type son propiedades de materia prima, el resto de la receta en sí
     const { name, type, ingredients } = req.body;
 
-    //  Validar los _id de cada ingrediente
+    //  Validar los ingredientes
     const allIngredients = await MateriaPrima.find();
 
+    ingredients.forEach((ingredient) => {
+      let found = allIngredients.find(
+        (materiaPrima) => materiaPrima.name === ingredient.name && materiaPrima.type === ingredient.type
+      );
+      if (!found) {
+        throw { status: 400, message: "Ingredient doesn't exists" };
+      }
+    });
+
+    //  Crear receta
     const receta = await Receta.create({ name, type, ingredients });
 
     res.status(201).json(receta);
@@ -23,4 +33,8 @@ export const createReceta = async (req, res) => {
 
     res.status(400).send(error.message);
   }
+};
+
+export const updateReceta = (req, res) => {
+  const { name, type, ingredients } = req.body;
 };

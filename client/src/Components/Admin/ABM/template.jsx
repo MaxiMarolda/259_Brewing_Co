@@ -1,57 +1,78 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useQuery } from "react-query";
-import configuration from "../configuration";
-import styles from "./Groups.module.css";
+import styles from "./Recetas.module.css";
 
-const Group = () => {
-  /* const getGroups = async () => {
-    const response = await fetch(configuration.url + "groups")
-      .then((response) => response.json())
-      .then((data) => {
-        return data.sort((a, b) => Number(a.name > b.name) * 2 - 1);
-      });
-    return response;
-  }; */
-
-  const getGroups = async () => {
-    const response = await fetch(configuration.url + "groups");
+const Recetas = () => {
+  const getGroups = async (route) => {
+    console.log(route);
+    const response = await fetch("http://localhost:3001/" + route);
     return response.json();
   };
 
-  const { data, status } = useQuery("groups", getGroups);
+  const recetas = useQuery("recetas", () => getGroups("receta"));
+
+  const columns = ["Producto", "Ingrediente", "Tipo", "grs", "grs/lt"];
 
   return (
     <div>
-      {status === "loading" && <div> Cargando equipos </div>}
-      {status === "error" && <div> Error al cargar los equipos </div>}
-      {status === "success" &&
-        data?.map((group, index) => {
-          return (
-            <div key={group._id}>
-              <ol>Groupo {group.name}</ol>
-              {group?.teams &&
-                group.teams.map((team) => {
-                  <li>EQUIPO PG G E P</li>;
-                  return (
-                    <li class={styles.teamInfo}>
-                      <span>{team.name}</span>
-                      <span>PJ</span>
-                      <span>G</span>
-                      <span>E</span>
-                      <span>P</span>
-                      <span>{team.groupStage.gf}</span>
-                      <span>{team.groupStage.gc}</span>
-                      <span>DG</span>
-                      {/* {team.name} PJ G E P {team.groupStage.gf} {team.groupStage.gc} DG */}
-                    </li>
-                  );
-                })}
-            </div>
-          );
-        })}
-      <div></div>
+      <h1> Recetas </h1>
+
+      {recetas.status === "loading" && <div> Cargando recetas </div>}
+      {recetas.status === "error" && <div> Error al cargar las recetas </div>}
+      {recetas.status === "success" && (
+        <table className={styles.recetas}>
+          {recetas.data?.map((receta) => (
+            <tbody>
+              <tr>
+                {columns?.map((column, index) => (
+                  <th key={index}>{column}</th>
+                ))}
+              </tr>
+              {receta?.ingredients.map((ingredient, index) => (
+                <tr key={index}>
+                  {index === 0 ? (
+                    <td>Nombre: {receta.name}</td>
+                  ) : index === 1 ? (
+                    <td>Tipo: {receta.type}</td>
+                  ) : (
+                    <td></td>
+                  )}
+                  <td>{ingredient.name}</td>
+                  <td>{ingredient.type}</td>
+                  <td>{ingredient.grs}</td>
+                  <td>{ingredient.grs / 20}</td>
+                </tr>
+              ))}
+            </tbody>
+          ))}
+        </table>
+      )}
     </div>
   );
 };
 
-export default Group;
+export default Recetas;
+
+/*
+{recetas.status === "success" &&
+        recetas.data?.map((receta) => (
+          <div key={receta._id}>
+            <h2>
+              {receta.name} {receta.type}
+            </h2>
+            <ul>
+              <li>Nombre - Tipo - grs - grs/lt</li>
+              {receta?.ingredients.map((ingredient) => {
+                return (
+                  <li>
+                    {ingredient.name} {" - "}
+                    {ingredient.type} {" - "}
+                    {ingredient.grs} {" - "}
+                    {ingredient.grs / 20}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}  
+*/
