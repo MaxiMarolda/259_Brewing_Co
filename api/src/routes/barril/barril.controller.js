@@ -8,6 +8,7 @@ export const createBarril = async (req, res) => {
     const clientId = 0;
     const dateLeft = Date.now();
     const dateReturn = Date.now();
+    const isActive = "true";
     const barril = await Barril.create({ type , clientId, dateLeft, dateReturn, isActive});
     res.status(201).json(barril);
   } catch (error) {
