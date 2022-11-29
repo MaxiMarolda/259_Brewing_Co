@@ -7,4 +7,6 @@ router.get("/receta", recetaController.getReceta);
 
 router.post("/receta", recetaController.createReceta);
 
+router.put("/receta", recetaController.updateReceta);
+
 export default router;

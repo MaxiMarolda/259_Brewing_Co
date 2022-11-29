@@ -80,3 +80,14 @@ export const updateMateriaPrima = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
+
+export const deleteMateriaPrima = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const materiaPrimaToDelete = await MateriaPrima.findByIdAndDelete(id);
+
+    res.status(202).json(materiaPrimaToDelete);
+  } catch (error) {
+    res.status(400).send(error.message);
+  }
+};

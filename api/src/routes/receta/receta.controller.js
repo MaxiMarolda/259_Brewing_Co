@@ -34,3 +34,7 @@ export const createReceta = async (req, res) => {
     res.status(400).send(error.message);
   }
 };
+
+export const updateReceta = (req, res) => {
+  const { name, type, ingredients } = req.body;
+};
