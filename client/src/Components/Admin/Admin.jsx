@@ -6,6 +6,8 @@ import MateriasPrimas from "./ABM/MateriasPrimas";
 import Productos from "./ABM/Productos";
 import Recetas from "./ABM/Recetas";
 import Usuarios from "./ABM/Usuarios";
+import CustomTable from "../assets/CustomTable";
+
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -18,7 +20,15 @@ import { Layout, Menu } from "antd";
 const App = () => {
   const { Header, Sider, Content } = Layout;
   const [collapsed, setCollapsed] = useState(false);
-  const components = [<Barriles />, <Fermentadores />, <MateriasPrimas />, <Productos />, <Recetas />, <Usuarios />];
+  const components = [
+    <Barriles />,
+    <Fermentadores />,
+    <MateriasPrimas />,
+    <Productos />,
+    <Recetas />,
+    <Usuarios />,
+    <CustomTable />,
+  ];
   const [activeComponent, setActiveComponent] = useState(0); //  = defaultSelectedKeys
 
   const renderComponent = (e) => {
