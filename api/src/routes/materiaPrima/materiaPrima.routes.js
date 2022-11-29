@@ -10,6 +10,8 @@ router.get("/materiaPrima", materiaPrimaController.getAllMateriasPrimas);
 router.put("/materiaPrima", materiaPrimaController.createMateriaPrima); //crea o modifica una existente
 router.put("/materiaPrima/:id", materiaPrimaController.updateMateriaPrima); //cuando se cocina una receta
 
+router.delete("/materiaPrima/:id", materiaPrimaController.deleteMateriaPrima);
+
 // Ruta put para descontar materias primas al producir una receta
 
 export default router;
