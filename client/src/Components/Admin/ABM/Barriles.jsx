@@ -3,7 +3,6 @@ import { Button, Form, Input, Popconfirm, Table } from "antd";
 import { useQuery } from "react-query";
 import Notification from "./Notification";
 
-
 const EditableContext = React.createContext(null);
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
@@ -77,7 +76,6 @@ const EditableCell = ({ title, editable, children, dataIndex, record, handleSave
 const Barriles = () => {
   const getBarriles = async (route) => {
     const response = await fetch("http://localhost:3001/" + route);
-  //  console.log(response);
     return response.json();
   };
 
@@ -91,7 +89,6 @@ const Barriles = () => {
     let data = [];
     if (barriles?.status === "success") {
       data = barriles.data?.map((barril) => {
-        console.log(barril);
         return {
           key: barril._id,
           _id: barril._id,
@@ -99,7 +96,7 @@ const Barriles = () => {
           type: barril.type,
           dateLeft: barril.dateLeft,
           dateReturn: barril.dateReturn,
-          isActive: barril.isActive
+          isActive: barril.isActive,
         };
       });
     }
@@ -107,7 +104,6 @@ const Barriles = () => {
   };
 
   useEffect(() => {
-    console.log("Barriles!!!!");
     setDataSource(handleData());
     return () => {
       barriles.refetch(); //  To update barriles and re-render when navigating through component
@@ -186,7 +182,7 @@ const Barriles = () => {
   const handleAdd = () => {
     const newData = {
       key: count,
-      type: "Tipo"
+      type: "Tipo",
     };
     setDataSource([...dataSource, newData]);
     setCount(count + 1);

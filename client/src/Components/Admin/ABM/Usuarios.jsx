@@ -66,7 +66,12 @@ const Usuarios = () => {
     <div>
       <p> ESTAS EN Usuarios</p>
       {dataSource.length ? (
-        <CustomTable updateRoute="materiaprima" dataColumns={columns} originData={dataSource} />
+        <CustomTable
+          dataColumns={columns}
+          originData={dataSource}
+          updateRoute="materiaprima"
+          deleteRoute="materiaPrima"
+        />
       ) : (
         <div>Cargando</div>
       )}

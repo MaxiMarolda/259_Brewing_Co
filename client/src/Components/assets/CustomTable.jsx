@@ -26,7 +26,7 @@ const EditableCell = ({ editing, dataIndex, title, inputType, record, index, chi
     </td>
   );
 };
-const CustomTable = ({ dataColumns, originData, updateRoute }) => {
+const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState("");
@@ -48,7 +48,6 @@ const CustomTable = ({ dataColumns, originData, updateRoute }) => {
   };
 
   const updateRowInDb = async (updateData) => {
-    console.log(updateRoute);
     const response = await fetch(`http://localhost:3001/${updateRoute}/${updateData._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -87,33 +86,58 @@ const CustomTable = ({ dataColumns, originData, updateRoute }) => {
     }
   };
 
-  const columns = dataColumns?.concat({
-    title: "operation",
-    dataIndex: "operation",
-    render: (_, record) => {
-      const editable = isEditing(record);
-      return editable ? (
-        <span>
-          <Typography.Link
-            onClick={() => save(record.key)}
-            style={{
-              marginRight: 8,
-            }}
-          >
-            Save
-          </Typography.Link>
+  const handleDelete = async (key) => {
+    const newData = data.filter((item) => item.key !== key);
+    setData(newData);
+    //QUERY
+    console.log(key);
+    const response = await fetch(`http://localhost:3001/${deleteRoute}/${key}`, {
+      method: "DELETE",
+    });
+    return response.json();
+  };
 
-          <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-            <a>Cancel</a>
-          </Popconfirm>
-        </span>
-      ) : (
-        <Typography.Link disabled={editingKey !== ""} onClick={() => edit(record)}>
-          Edit
-        </Typography.Link>
-      );
+  const columns = dataColumns?.concat(
+    {
+      title: "operation",
+      dataIndex: "operation",
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Typography.Link
+              onClick={() => save(record.key)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Save
+            </Typography.Link>
+
+            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+              <a>Cancel</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <Typography.Link disabled={editingKey !== ""} onClick={() => edit(record)}>
+            Edit
+          </Typography.Link>
+        );
+      },
     },
-  });
+    {
+      title: "operation2",
+      dataIndex: "operation2",
+      render: (_, record) =>
+        data.length >= 1 ? (
+          <div>
+            <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.key)}>
+              <a>Delete</a>
+            </Popconfirm>{" "}
+          </div>
+        ) : null,
+    }
+  );
 
   const mergedColumns = columns?.map((col) => {
     if (!col.editable) {

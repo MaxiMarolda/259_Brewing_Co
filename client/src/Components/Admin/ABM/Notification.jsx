@@ -4,14 +4,12 @@ import { notification } from "antd";
 
 const Notification = ({ title, successMessage, errorMessage, requestOptions, id }) => {
   const [api, contextHolder] = notification.useNotification();
-  console.log("NOTIFICATION: ", requestOptions);
   const query = async (route) => {
     const response = await fetch(`http://localhost:3001/materiaprima/${id}`, requestOptions);
     return response.json();
   };
 
   const openNotification = async () => {
-    console.log("Notification:", requestOptions);
     try {
       const response = await query();
       if (response._id) {
