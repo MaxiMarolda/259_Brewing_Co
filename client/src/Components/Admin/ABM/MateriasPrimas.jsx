@@ -104,7 +104,6 @@ const MateriasPrimas = () => {
   };
 
   useEffect(() => {
-    console.log("QQQQ");
     setDataSource(handleData());
     return () => {
       materiasPrimas.refetch(); //  To update materiasPrimas and re-render when navigating through component
