@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import CustomTable from "../../assets/CustomTable";
 import ModalForm from "../../assets/ModalForm";
 
-const Usuarios = () => {
+const MateriasPrimas = () => {
   const getMateriasPrimas = async (route) => {
     const response = await fetch("http://localhost:3001/" + route);
     return response.json();
@@ -86,4 +86,4 @@ const Usuarios = () => {
   );
 };
 
-export default Usuarios;
+export default MateriasPrimas;
