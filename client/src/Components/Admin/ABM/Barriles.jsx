@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import CustomTable from "../../assets/CustomTable";
 
-
-
-
 const Barriles = () => {
   const getBarriles = async (route) => {
     const response = await fetch("http://localhost:3001/" + route);
@@ -78,13 +75,9 @@ const Barriles = () => {
     },
   ];
 
-
   return (
     <div>
-      <CustomTable 
-        dataColumns={dataColumns}
-        originData={handleData}
-        />
+      {dataSource.length ? <CustomTable dataColumns={dataColumns} originData={handleData} /> : <div>Cargando</div>}
     </div>
   );
 };
