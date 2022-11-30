@@ -77,7 +77,7 @@ const Barriles = () => {
 
   return (
     <div>
-      {dataSource.length ? <CustomTable dataColumns={dataColumns} originData={handleData} /> : <div>Cargando</div>}
+      {dataSource.length ? <CustomTable dataColumns={dataColumns} originData={dataSource} /> : <div>Cargando</div>}
     </div>
   );
 };
