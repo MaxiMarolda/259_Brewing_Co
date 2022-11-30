@@ -7,13 +7,14 @@ import Productos from "./ABM/Productos";
 import Recetas from "./ABM/Recetas";
 import Usuarios from "./ABM/Usuarios";
 import CustomTable from "../assets/CustomTable";
+import AdminBackup from "./AdminBackup";
 
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
+  //UploadOutlined,
   UserOutlined,
-  VideoCameraOutlined,
+  //VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 
@@ -28,6 +29,7 @@ const App = () => {
     <Recetas />,
     <Usuarios />,
     <CustomTable />,
+    <AdminBackup />,
   ];
   const [activeComponent, setActiveComponent] = useState(0); //  = defaultSelectedKeys
 
