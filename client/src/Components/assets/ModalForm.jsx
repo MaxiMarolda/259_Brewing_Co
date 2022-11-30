@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "antd";
 import CustomForm from "./CustomForm";
 
-const ModalForm = ({ inputs, route }) => {
+const ModalForm = ({ inputs, route, setFormCompleted }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFormFinished, setIsFormFinished] = useState(false);
 
@@ -18,6 +18,7 @@ const ModalForm = ({ inputs, route }) => {
 
   useEffect(() => {
     if (isFormFinished) {
+      setFormCompleted(true);
       handleOk();
     }
   }, [isFormFinished]);
@@ -25,7 +26,7 @@ const ModalForm = ({ inputs, route }) => {
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        Open Modal
+        Agregar fila
       </Button>
       <Modal title="Crear materia prima" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <CustomForm inputs={inputs} route={route} setIsFormFinished={setIsFormFinished} />
