@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from "antd";
 import Notification from "../Admin/ABM/Notification";
+
 const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) => {
   const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
   return (
@@ -26,11 +27,17 @@ const EditableCell = ({ editing, dataIndex, title, inputType, record, index, chi
     </td>
   );
 };
-const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute }) => {
+const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute, tableShouldUpdate }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState("");
   const isEditing = (record) => record.key === editingKey;
+
+  useEffect(() => {
+    if (tableShouldUpdate) {
+      setData(originData);
+    }
+  }, [tableShouldUpdate]);
 
   const edit = (record) => {
     form.setFieldsValue({
@@ -71,11 +78,7 @@ const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute }) => {
         setEditingKey("");
 
         const updateRow = { ...row, _id: item._id };
-        console.log("updateRow", updateRow);
-        const response = await updateRowInDb(updateRow);
-        console.log("response", response);
-
-        //ACA HACER EL QUERY PUT CON "row" + _id de item
+        await updateRowInDb(updateRow);
       } else {
         newData.push(row);
         setData(newData);
@@ -89,8 +92,7 @@ const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute }) => {
   const handleDelete = async (key) => {
     const newData = data.filter((item) => item.key !== key);
     setData(newData);
-    //QUERY
-    console.log(key);
+
     const response = await fetch(`http://localhost:3001/${deleteRoute}/${key}`, {
       method: "DELETE",
     });
@@ -155,7 +157,7 @@ const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute }) => {
     };
   });
 
-  return (
+  return originData.length ? (
     <Form form={form} component={false}>
       <Table
         components={{
@@ -172,6 +174,8 @@ const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute }) => {
         }}
       />
     </Form>
+  ) : (
+    <div>Cargando</div>
   );
 };
 export default CustomTable;

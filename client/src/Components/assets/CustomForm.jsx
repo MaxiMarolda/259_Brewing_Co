@@ -37,39 +37,19 @@ const validateMessages = {
 };
 
 const CustomForm = ({ inputs, route, setIsFormFinished }) => {
-  //const history = useHistory();
-
   const onFinish = async (values) => {
-    console.log(values.user);
-    //HACER LA QUERY ACA
     try {
-      // Body:{ "name": "borrar", "type": "borrar", "amount": 0, "size": "0.5" }
-      // url: http://localhost:3001/materiaPrima
-      console.log("Ruta:", route);
       const response = await fetch(`http://localhost:3001/${route}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values.user),
       });
 
-      console.log(response);
-      history.go(0);
-
       setIsFormFinished(true);
     } catch (error) {
       console.log(error.message);
     }
   };
-  /*
-const updateRowInDb = async (updateData) => {
-    const response = await fetch(`http://localhost:3001/${updateRoute}/${updateData._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updateData),
-    });
-    return response.json();
-  };
-*/
 
   const createInputs = () => {
     const formItems = [];
