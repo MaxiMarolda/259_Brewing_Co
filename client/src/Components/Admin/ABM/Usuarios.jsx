@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import CustomTable from "../../assets/CustomTable";
 import { useQuery } from "react-query";
+import CustomTable from "../../assets/CustomTable";
+import ModalForm from "../../assets/ModalForm";
 
 const Usuarios = () => {
   const getMateriasPrimas = async (route) => {
@@ -9,7 +10,7 @@ const Usuarios = () => {
   };
 
   let materiasPrimas = useQuery("materiasPrimas", () => getMateriasPrimas("materiaprima"), {
-    //refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
   });
 
   const columns = [
@@ -35,7 +36,6 @@ const Usuarios = () => {
       editable: true,
     },
   ];
-  const editableColumns = ["name", "type", "amount", "size"];
 
   const [dataSource, setDataSource] = useState([]);
   const handleData = () => {
@@ -65,6 +65,13 @@ const Usuarios = () => {
   return (
     <div>
       <p> ESTAS EN Usuarios</p>
+      <ModalForm
+        inputs={{
+          string: [{ name: 1 }, { type: 1 }],
+          number: [{ amount: 1 }, { size: 1 }],
+        }}
+        route={"materiaPrima"}
+      />
       {dataSource.length ? (
         <CustomTable
           dataColumns={columns}
