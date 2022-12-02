@@ -27,7 +27,15 @@ const EditableCell = ({ editing, dataIndex, title, inputType, record, index, chi
     </td>
   );
 };
-const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute, tableShouldUpdate }) => {
+const CustomTable = ({
+  expandir,
+  dataColumns,
+  originData,
+  updateRoute,
+  deleteRoute,
+  tableShouldUpdate,
+  expandable,
+}) => {
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState("");
@@ -172,6 +180,7 @@ const CustomTable = ({ dataColumns, originData, updateRoute, deleteRoute, tableS
         pagination={{
           onChange: cancel,
         }}
+        expandable={expandir && expandable}
       />
     </Form>
   ) : (
