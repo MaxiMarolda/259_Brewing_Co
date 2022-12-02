@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import { Table } from "antd";
-import CustomTable from "../../assets/CustomTable";
 
 const Recetas = () => {
   const getRecetas = async (route) => {
@@ -9,9 +8,7 @@ const Recetas = () => {
     return response.json();
   };
 
-  const recetas = useQuery("recetas", () => getRecetas("receta"), {
-    refetchOnWindowFocus: false,
-  });
+  const recetas = useQuery("recetas", () => getRecetas("receta"));
 
   const expandedRowRender = () => {
     const columns = [
@@ -74,34 +71,17 @@ const Recetas = () => {
     });
   });
 
-  /*   const [dataSource, setDataSource] = useState([]);
-
-  useEffect(() => {
-    setDataSource(mainData);
-    return () => {
-      recetas.refetch(); //  To update materiasPrimas and re-render when navigating through components
-    };
-  }, [recetas.status]); */
-
   return (
-    <div>
-      {/* dataColumns, originData, updateRoute, deleteRoute, tableShouldUpdate */}
-      {console.log("recetas: ", recetas)}
-      {recetas?.data?.length ? (
-        <CustomTable
-          updateRoute="receta"
-          deleteRoute="receta"
-          originData={mainData}
-          dataColumns={mainColumns}
-          expandir={true}
-          expandable={{
-            expandedRowRender,
-          }}
-        />
-      ) : (
-        <div>Cargando</div>
-      )}
-    </div>
+    <Table
+      columns={mainColumns}
+      expandable={{
+        expandedRowRender,
+      }}
+      dataSource={mainData}
+      scroll={{
+        y: "65vh",
+      }}
+    />
   );
 };
 
