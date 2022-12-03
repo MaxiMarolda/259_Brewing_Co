@@ -36,11 +36,12 @@ const validateMessages = {
   },
 };
 
-const CustomForm = ({ inputs, route, setIsFormFinished }) => {
+const CustomForm = ({ inputs, route, setIsFormFinished, method }) => {
   const onFinish = async (values) => {
     try {
+      console.log(values.user);
       const response = await fetch(`http://localhost:3001/${route}`, {
-        method: "PUT",
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values.user),
       });

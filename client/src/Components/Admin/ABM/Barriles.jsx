@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import CustomTable from "../../assets/CustomTable";
+import ModalForm from "../../assets/ModalForm";
 
 const Barriles = () => {
   const getBarriles = async (route) => {
@@ -9,35 +10,8 @@ const Barriles = () => {
   };
 
   let barriles = useQuery("barriles", () => getBarriles("barril"), {
-    //refetchOnWindowFocus: true,
+    refetchOnWindowFocus: true,
   });
-
-  const [dataSource, setDataSource] = useState([]);
-
-  const handleData = () => {
-    let data = [];
-    if (barriles?.status === "success") {
-      data = barriles.data?.map((barril) => {
-        return {
-          key: barril._id,
-          _id: barril._id,
-          clientId: barril.clientId,
-          type: barril.type,
-          dateLeft: barril.dateLeft,
-          dateReturn: barril.dateReturn,
-          isActive: barril.isActive,
-        };
-      });
-    }
-    return data;
-  };
-
-  useEffect(() => {
-    setDataSource(handleData());
-    return () => {
-      barriles.refetch(); //  To update barriles and re-render when navigating through component
-    };
-  }, [barriles.status]);
 
   const dataColumns = [
     {
@@ -74,11 +48,75 @@ const Barriles = () => {
       editable: false,
     },
   ];
+  
+  const [dataSource, setDataSource] = useState([]);
+
+  const mapData = (data) => {
+    return data.map( barril => {
+      return {
+        key: barril._id,
+        _id: barril._id,
+        clientId: barril.clientId,
+        type: barril.type,
+        dateLeft: barril.dateLeft,
+        dateReturn: barril.dateReturn,
+        isActive: barril.isActive,
+      };
+    });
+  };
+
+  const handleData = () => {
+    if (barriles?.status === "success") {
+      const data = mapData(barriles.data);
+      return data;
+    }
+  };
+
+  useEffect(() => {
+    setDataSource(handleData());
+    return () => {
+      barriles.refetch(); //  To update barriles and re-render when navigating through component
+    };
+  }, [barriles.status]);
+
+  const [formCompleted, setFormCompleted] = useState(false);
+  const [tableShouldUpdate, setTableShouldUpdate] = useState(false);
+
+  useEffect(() => {
+    if (formCompleted) {
+      updateTableData();
+      setFormCompleted(false);
+      setTableShouldUpdate(false);
+    }
+  }, [formCompleted]);
+
+  const updateTableData = async () => {
+    const response = await getBarriles("barril");
+    setDataSource(mapData(response));
+    setTableShouldUpdate(true);
+  };
+
 
   return (
     <div>
-      {dataSource.length ? <CustomTable dataColumns={dataColumns} originData={dataSource} /> : <div>Cargando</div>}
+      <ModalForm
+        inputs={{
+          string: [{ tipo: 1 }],
+        }}
+        route={"barril"}
+        setFormCompleted={setFormCompleted}
+        method="POST"
+        title="Crear un nuevo Barril"
+      />
+      <p></p>
+      {dataSource?.length  
+      ? <CustomTable 
+          dataColumns={dataColumns} 
+          originData={dataSource} 
+          /> 
+      : <div>Cargando</div>}
     </div>
   );
 };
+
 export default Barriles;

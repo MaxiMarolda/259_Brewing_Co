@@ -91,6 +91,8 @@ const MateriasPrimas = () => {
         }}
         route={"materiaPrima"}
         setFormCompleted={setFormCompleted}
+        method="PUT"
+        title="Crear una nueva materia prima"
       />
       <p></p>
       {dataSource?.length ? (

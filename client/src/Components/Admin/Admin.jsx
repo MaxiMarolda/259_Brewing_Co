@@ -7,7 +7,6 @@ import Productos from "./ABM/Productos";
 import Recetas from "./ABM/Recetas";
 import Usuarios from "./ABM/Usuarios";
 import CustomTable from "../assets/CustomTable";
-import AdminBackup from "./AdminBackup";
 
 import {
   MenuFoldOutlined,
@@ -29,7 +28,6 @@ const App = () => {
     <Recetas />,
     <Usuarios />,
     <CustomTable />,
-    <AdminBackup />,
   ];
   const [activeComponent, setActiveComponent] = useState(0); //  = defaultSelectedKeys
 
