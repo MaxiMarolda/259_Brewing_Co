@@ -7,6 +7,7 @@ import Productos from "./ABM/Productos";
 import Recetas from "./ABM/Recetas";
 import Usuarios from "./ABM/Usuarios";
 import CustomTable from "../assets/CustomTable";
+import { Link } from 'react-router-dom';
 
 import {
   MenuFoldOutlined,
@@ -44,7 +45,7 @@ const App = () => {
       }}
     >
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo" />
+        <div className="logo">Administración </div>
         <Menu
           theme="dark"
           mode="inline"
@@ -54,6 +55,16 @@ const App = () => {
           })}
           onClick={(e) => renderComponent(e)}
         />
+        <br/>
+        <Link 
+          to='/'
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <button >Volver</button>
+        </Link>
       </Sider>
       <Layout className="site-layout">
         <Header
